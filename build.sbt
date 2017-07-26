@@ -11,6 +11,8 @@ lazy val commonSettings = Seq(
 
 libraryDependencies := Seq(
   "com.typesafe.akka" %% "akka-http" % "10.0.9",
+  "org.json4s" %% "json4s-jackson" % "3.5.2",
+  "com.typesafe.akka" %% "akka-http-spray-json" % "10.0.9",
   "com.typesafe.akka" %% "akka-http-testkit" % "10.0.9" % Test,
   "org.scalatest" %% "scalatest" % "3.0.3" % Test
 )
