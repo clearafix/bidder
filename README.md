@@ -13,5 +13,8 @@ Load test are based on gatling - @see exchange project
 
 
 
- 
+###Test
+sbt clean compile
+sbt run
 
+curl -X POST -d '{"bid": "Test bid"}' http://localhost:8080/bid -H "Content-Type:application/json"
