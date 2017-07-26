@@ -1,13 +1,14 @@
 package server
 
-import akka.actor.ActorSystem
-import akka.http.scaladsl.Http
-import akka.http.scaladsl.server.Directives._
-import akka.http.scaladsl.server.Route
-import akka.stream.ActorMaterializer
 import com.typesafe.config.ConfigFactory
 import model.BidRequest
-
+import akka.actor.ActorSystem
+import akka.http.scaladsl.Http
+import akka.stream.ActorMaterializer
+import akka.http.scaladsl.server.Directives._
+import akka.http.scaladsl.server.Route
+import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
+import spray.json.DefaultJsonProtocol._
 
 
 object WebServer {
@@ -16,6 +17,7 @@ object WebServer {
     implicit val system = ActorSystem("bidder")
     implicit val materializer = ActorMaterializer()
     implicit val executionContext = system.dispatcher
+    implicit val itemFormat = jsonFormat1(BidRequest)
 
     val config = ConfigFactory.load
     val host = config.getString("bidder.host")
