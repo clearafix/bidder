@@ -1,3 +1,3 @@
 package model
 
-case class BidRequest(bid: String)
+case class BidRequest(id: String, bids: Option[List[String]])
