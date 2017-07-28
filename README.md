@@ -13,12 +13,15 @@ Load test are based on gatling - @see exchange project
 
 
 
-###Test
+### Test
 
+Run the application:
+```sbtshell
 sbt clean compile
 sbt run
-
 ```
+Test by posting json to endpoints.
+```bash
 curl -X POST -d '{"id": "12345", "bids": ["one", "two", "three"]}' http://localhost:8080/bid -H "Content-Type:application/json"
 curl -X POST -d '{"id": "12345"}' http://localhost:8080/bid -H "Content-Type:application/json"
 ```
