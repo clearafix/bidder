@@ -28,4 +28,6 @@ trait Mappings {
   implicit val mapper: ObjectMapper = new ObjectMapper().registerModule(DefaultScalaModule)
 
   implicit def toBidRequest(json: String)(implicit mapper: ObjectMapper): BidRequest = mapper readValue(json, classOf[BidRequest])
+
+  implicit def toJson[T](resp: T )(implicit mapper: ObjectMapper): String = mapper writeValueAsString (resp)
 }

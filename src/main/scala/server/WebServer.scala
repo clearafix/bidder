@@ -15,7 +15,6 @@ import akka.actor._
 import akka.http.scaladsl.model.StatusCodes
 import akka.util.Timeout
 
-
 object WebServer {
   def main(args: Array[String]) {
 
@@ -45,7 +44,7 @@ object WebServer {
             entity(as[BidRequest]) { bid =>
               onSuccess(biddingActor ? bid) {
                 case resp: BidResponse =>
-                  complete(StatusCodes.OK, resp.toString)
+                  complete(StatusCodes.OK, toJson(resp))
                 case _ =>
                   complete(StatusCodes.InternalServerError)
               }
@@ -57,6 +56,9 @@ object WebServer {
 
     bindingFuture.failed.foreach { ex =>
       println(ex)
+    }
+    bindingFuture.foreach { con =>
+      println(con.localAddress)
     }
   }
 }
