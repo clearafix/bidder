@@ -22,6 +22,6 @@ sbt run
 ```
 Test by posting json to endpoints.
 ```bash
-curl -X POST -d '{"id": "12345", "bids": ["one", "two", "three"]}' http://localhost:8080/bid -H "Content-Type:application/json"
-curl -X POST -d '{"id": "12345"}' http://localhost:8080/bid -H "Content-Type:application/json"
+curl -X POST -d '{"id": 123, "ads": ["one", "two", "three"]}' http://localhost:8080/bid -H "Content-Type:application/json"
+curl -X POST -d '{"id": 123}' http://localhost:8080/bid -H "Content-Type:application/json"
 ```
