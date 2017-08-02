@@ -13,7 +13,13 @@ import akka.pattern.ask
 import scala.concurrent.duration._
 import akka.actor._
 import akka.http.scaladsl.model.StatusCodes
+import akka.http.scaladsl.model.StatusCodes.ServerError
 import akka.util.Timeout
+
+import scala.util.{Failure, Success}
+import akka.pattern.ask
+
+import scala.concurrent.{Await, Future}
 
 object WebServer {
   def main(args: Array[String]) {
@@ -22,7 +28,7 @@ object WebServer {
     implicit val materializer = ActorMaterializer()
     implicit val executionContext = system.dispatcher
     implicit val um = unmarshaller[BidRequest]
-    implicit val timeout = Timeout(5 seconds)
+    implicit val timeout = Timeout(45 seconds)
 
     val config = ConfigFactory.load
     val host = config.getString("bidder.host")
@@ -42,12 +48,12 @@ object WebServer {
         post {
           path("bid") {
             entity(as[BidRequest]) { bid =>
-              onSuccess(biddingActor ? bid) {
-                case resp: BidResponse =>
-                  complete(StatusCodes.OK, toJson(resp))
-                case _ =>
-                  complete(StatusCodes.InternalServerError)
+              val future = biddingActor ? bid
+              val res = future.flatMap(b => Future{(toJson(b))})
+              onSuccess(res) {
+                resp => complete(StatusCodes.OK, toJson(resp))
               }
+
             }
           }
         }
